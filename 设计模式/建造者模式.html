@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >建造者</title >
+</head >
+<body >
+
+</body >
+<script>
+  // 与工厂相比，创造者模式不仅创建出了一个对象，而且还参与了创建的具体过程（创造出一个复合对象）
+  // 工厂只关注结果，得到相应的对象，
+  class Info {
+    constructor(name, age) {
+      this.name =  name
+      this.age = age
+    }
+  }
+
+  class Skill {
+    constructor(name, description) {
+      this.name = name
+      this.description = description
+    }
+
+    setDes(text) {
+      this.description = text
+    }
+  }
+
+  class People {
+    constructor(sex) {
+      this.sex = sex
+    }
+  }
+
+  class Worker {
+    constructor(params) {
+      // 对多个类进行拼接处理，比较灵活
+      let worker = new People(params.sex)
+      worker.info = new Info(params.name, params.age)
+      worker.skill = new Skill(params.skillName, params.skillDescription)
+      return worker
+    }
+  }
+  let worker = new Worker({
+    sex: '男的',
+    name: '隔壁老王',
+    age: 21,
+    skillName: '搬砖',
+    skillDescription: '一秒十块'
+  })
+  console.log(worker.skill.description)
+  worker.skill.setDes('一块五块')
+  console.log(worker.skill.description)
+
+
+</script>
+</html >

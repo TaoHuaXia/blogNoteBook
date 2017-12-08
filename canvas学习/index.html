@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >canvas</title >
+</head >
+<body >
+<canvas width='300' height='300' id='sss'>不支持canvas</canvas>
+<script>
+  document.body.onload = function () {
+    console.log('haha');
+    var canvas = document.getElementById('sss')
+    var ctx = canvas.getContext('2d')
+    // 绘制矩形
+    ctx.fillStyle = 'rgb(25, 25, 120)'
+    ctx.strokeStyle = 'rgb(25, 25, 120)'
+    ctx.globalAlpha = 1; //全局透明度 0完全透明 - 1完全不透明
+//    ctx.fillRect(0, 0, 150, 150)
+//    ctx.clearRect(45, 45, 60, 60)
+//    ctx.strokeRect(50, 50, 50, 50)
+//    ctx.rect(20, 20, 80, 80)
+//    ctx.stroke()
+//    //通过路径绘制三角形
+//    // 填充三角形
+//    ctx.beginPath();
+//    ctx.moveTo(25,25);
+//    ctx.lineTo(105,25);
+//    ctx.lineTo(25,105);
+//    ctx.fill();
+//
+//    // 描边三角形
+//    ctx.beginPath();
+//    ctx.moveTo(125,125);
+//    ctx.lineTo(125,45);
+//    ctx.lineTo(45,125);
+//    ctx.closePath(); // 不调用的话会只画两条线不能闭合
+//    ctx.stroke();
+    // 圆形
+//    ctx.beginPath()
+//    ctx.arc(100, 100, 50, Math.PI * 0.5, Math.PI * 2, true) // x, y, radius, start, end, 是否逆时针
+//    ctx.fill()
+//    // 二次贝尔赛曲线
+//    ctx.beginPath();
+//    ctx.moveTo(20,50);
+//    ctx.quadraticCurveTo(20,20,60,20);
+//    ctx.quadraticCurveTo(100,20,100,50);
+//    ctx.quadraticCurveTo(100,80,60,80);
+//    ctx.quadraticCurveTo(20,80,20,50);
+//    ctx.stroke();
+//    for (var i=0;i<6;i++){
+//      for (var j=0;j<6;j++){
+//        ctx.strokeStyle = 'rgb(0,' + Math.floor(255-42.5*i) + ',' +
+//          Math.floor(255-42.5*j) + ')';
+//        ctx.beginPath();
+//        ctx.arc(12.5+j*25,12.5+i*25,10,0,Math.PI*2,true);
+//        ctx.stroke();
+//      }
+//    }
+    // lineCap 与 lineWidth
+//    ctx.beginPath()
+//    ctx.moveTo(10, 10)
+//    ctx.lineTo(100, 10)
+//    ctx.moveTo(10, 110)
+//    ctx.lineTo(100, 110)
+//    ctx.stroke()
+//    ctx.lineWidth = 5
+//    ctx.beginPath()
+//    ctx.moveTo(15, 10)
+//    ctx.lineTo(15, 110)
+//    ctx.stroke()
+//    ctx.lineCap = 'square'
+//    ctx.beginPath()
+//    ctx.moveTo(35, 10)
+//    ctx.lineTo(35, 110)
+//    ctx.stroke()
+//    ctx.lineCap = 'round'
+//    ctx.beginPath()
+//    ctx.moveTo(55, 10)
+//    ctx.lineTo(55, 110)
+//    ctx.stroke()
+    // 虚线
+//    var offset = 0;
+//
+//    function draw() {
+//      ctx.clearRect(0,0, canvas.width, canvas.height);
+//      ctx.setLineDash([8, 4]); //接受实线与间隔两个值
+//      ctx.lineDashOffset = -offset;//默认的偏移量 正数向左偏移 负数向右
+//      ctx.strokeRect(10,10, 100, 100);
+//    }
+//
+//    function march() {
+//      offset++;
+//      if (offset > 30) {
+//        offset = 0;
+//      }
+//      draw();
+//      setTimeout(march, 20);
+//    }
+//
+//    march();
+    // 直线渐变
+//    var lingrad = ctx.createLinearGradient(0,50,0,150);
+//    lingrad.addColorStop(0, '#00ABEB');
+//    lingrad.addColorStop(0.5, '#fff');
+//    lingrad.addColorStop(0.5, '#26C000');
+//    lingrad.addColorStop(1, '#fff');
+//
+//    var lingrad2 = ctx.createLinearGradient(0,50,0,100);
+//    lingrad2.addColorStop(0.5, '#000');
+//    lingrad2.addColorStop(1, 'rgba(0,0,0,0)');
+//
+//    // assign gradients to fill and stroke styles
+//    ctx.fillStyle = lingrad;
+//    ctx.strokeStyle = lingrad2;
+//
+//    // draw shapes
+//    ctx.fillRect(10,10,130,130);
+//    ctx.strokeRect(50,50,50,50);
+    //圆形渐变
+//    var roundLingrad = ctx.createRadialGradient(60, 65, 20, 75, 70, 50)
+//    roundLingrad.addColorStop(0, 'red')
+//    roundLingrad.addColorStop(0.8, '#c5847b')
+//    roundLingrad.addColorStop(1, 'rgba(196,132,123, 0)')
+//    ctx.fillStyle = roundLingrad
+//    ctx.fillRect(0,0, 150, 150)
+    //阴影
+//    ctx.shadowOffsetX = 2;
+//    ctx.shadowOffsetY = 2;
+//    ctx.shadowBlur = 2;
+//    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+//
+//    ctx.font = "20px Times New Roman";
+//    ctx.fillStyle = "Black";
+//    ctx.strokeText("Sample String", 5, 30);
+    // translate 等比于transform 在绘制图形时不需要再去改变原点
+    ctx.fillRect(0, 0, 200, 200)
+    ctx.translate(100, 100)
+    ctx.fillStyle = '#fff'
+    ctx.fillRect(0,0, 100, 100)
+
+  }
+</script>
+</body >
+</html >

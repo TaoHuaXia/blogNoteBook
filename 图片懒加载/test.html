@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Title</title >
+  <style>
+    .common {
+      position: absolute;
+      top: 0;
+      left: 40%;
+      outline: 1px  #000;
+    }
+  </style>
+</head >
+
+<body  style='height: 2500px; position: relative'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 50px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 150px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 250px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 350px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 450px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 550px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 650px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 750px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 850px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 950px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1050px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1150px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1250px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1350px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1450px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1550px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1650px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1750px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1850px'>
+<img class='common' src='./defaultImg.png' data-src='./img.png' style='top: 1950px'>
+<script>
+  function debounce(func, delay) {
+    var lastEvent = null;
+    return function () {
+      console.log(4444444444)
+      clearTimeout(lastEvent);
+      lastEvent = setTimeout(func, delay);
+    }
+  }
+  function throttle (func, delay) {
+    var last = +new Date();
+    return function () {
+      var current = +new Date();
+      if (current - last >= delay) {
+        func()
+        last = current
+      }
+    }
+  }
+  document.body.onscroll = debounce(checkImg(), 500)
+  function checkImg() {
+    var current = -1
+    var imgs = document.getElementsByClassName('common')
+    debugger
+    return function () {
+      var scrollTop = document.body.scrollTop
+      var height = window.innerHeight
+      for (var i = 0; i < imgs.length; i++) {
+        if (i <= current) { continue }
+        console.log(imgs[i].offsetTop - document.body.scrollTop >)
+      }
+    }
+  }
+</script>
+</body >
+</html >

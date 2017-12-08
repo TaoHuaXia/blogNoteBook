@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Title</title >
+  <style>
+    #sss {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      margin-left: -150px;
+      margin-right: -150px;
+    }
+  </style>
+</head >
+<body >
+<canvas id='sss' width='300px' height='300px'></canvas>
+<script>
+  document.body.onload = function () {
+// 合理运用save restore来进行状态的重置
+    function clock(){
+      var date = new Date()
+      var ctx = document.getElementById('sss').getContext('2d');
+      ctx.save();
+      ctx.clearRect(0,0,300,300);
+      ctx.translate(150,150);
+      ctx.beginPath();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#325FA2';
+      ctx.arc(0,0,80,0,Math.PI*2,true);
+      ctx.stroke();
+      // 绘画表盘
+      ctx.strokeStyle = "black";
+      ctx.fillStyle = "white";
+      ctx.lineWidth = 6;
+      ctx.lineCap = "round";
+      ctx.save()
+      for (var i = 0; i < 12; i++) {
+        ctx.rotate(Math.PI / 6)
+        ctx.beginPath()
+        ctx.moveTo(70, 0)
+        ctx.lineTo(80, 0)
+        ctx.stroke()
+      }
+      ctx.restore()
+      ctx.save()
+      for ( i = 0; i < 60; i++) {
+        ctx.lineWidth = 3;
+        if (i % 5 !== 0) {
+          ctx.beginPath()
+          ctx.moveTo(0, 75)
+          ctx.lineTo(0, 80)
+          ctx.stroke()
+        }
+        ctx.rotate(Math.PI / 30)
+      }
+      ctx.restore()
+
+      var hr = date.getHours()
+      var min = date.getMinutes()
+      var sec = date.getSeconds()
+      hr = hr>=12 ? hr-12 : hr;
+      // 绘制时针
+      ctx.save();
+      ctx.rotate( hr*(Math.PI/6) + (Math.PI/360)*min + (Math.PI/21600)*sec )
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0,10); //此处绘画时针是自下向上画，因为转动表盘类似于抽奖转盘
+      ctx.lineTo(0,-40);
+      ctx.stroke();
+      ctx.restore();
+
+      // 绘制分针
+      ctx.save();
+      ctx.rotate((Math.PI/30) * min + (Math.PI/1800)*sec )
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0,10); //此处绘画时针是自下向上画，因为转动表盘类似于抽奖转盘
+      ctx.lineTo(0,-60);
+      ctx.stroke();
+      ctx.restore();
+      console.log(min)
+      console.log(sec)
+      // 绘制秒针
+      ctx.save();
+      ctx.rotate((Math.PI/60)*sec)
+      ctx.strokeStyle = "red";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, 15, 4, 0, Math.PI * 2)
+      ctx.moveTo(0,10); //此处绘画时针是自下向上画，因为转动表盘类似于抽奖转盘
+      ctx.lineTo(0,-40);
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.restore();
+    }
+    window.setInterval(clock, 1000)
+  }
+</script>
+</body >
+</html >

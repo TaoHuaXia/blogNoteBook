@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Title</title >
+</head >
+<body >
+<script>
+  //  // 链式操作
+  //  var check = function () {
+  //    return {
+  //      checkName: function () {
+  //        console.log('检查名字')
+  //        return this
+  //      },
+  //      checkAge: function () {
+  //        console.log('检查年龄')
+  //        return this
+  //      }
+  //    }
+  //  }
+  //  var chain = check()
+  //  chain.checkName().checkAge()
+  //
+  //  // 可以是用return this的方法返回实例，以便进行链式调用
+  //
+  //  //为函数原型或者自身添加方法的addMethod
+  //  Function.prototype.addMethod = function (arr) {
+  //    var that = this
+  //    arr.forEach(function (item) {
+  //      if (item.isProto) {
+  //        that.prototype[item.name] = item.func
+  //      } else {
+  //        that[item.name] = item.func
+  //      }
+  //    })
+  //  }
+  //
+  //  var b = function () {}
+  //
+  //  b.addMethod([
+  //    {
+  //      isProto: true,
+  //      name: 'sayName',
+  //      func: function () {
+  //        console.log('Name')
+  //      }
+  //    },
+  //    {
+  //      isProto: false,
+  //      name: 'sayAge',
+  //      func: function () {
+  //        console.log('age')
+  //      }
+  //    }
+  //  ])
+  //
+  //  var c = new b()
+  //  c.sayName() // 添加在原型链上的函数需要创建一个实例才可以调用
+  //  b.sayAge() //添加到对象本身的函数可以直接使用
+
+  //  function people(name, age) {
+  //    this.name = name
+  //    student.call(this, age) //构造函数调用
+  //
+  //  }
+  //
+  //  function student(age) {
+  //    this.age = age
+  //  }
+  //  student.prototype.sayHello = function () {
+  //    console.log('asdfasdfadsf')
+  //  }
+  //
+  //  people.prototype = new student()
+  //
+  //
+  //  var stu = new people('wang', 26)
+  //  stu.sayHello()
+
+
+</script>
+</body >
+</html >

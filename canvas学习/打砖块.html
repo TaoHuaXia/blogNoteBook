@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >打砖块</title >
+  <style>
+    #sss {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid #ddd;
+    }
+  </style>
+</head >
+<body >
+<span>1.按 1 暂停</span>
+<span>2.按 2 重玩</span>
+<span>3.按 空格 开始</span>
+
+<canvas id='sss' width='500' height='500'></canvas>
+
+</body >
+<script>
+  document.body.onload = function () {
+    var ctx = document.getElementById('sss').getContext('2d')
+    var runner = null
+    ctx.save()
+    //初始化游戏对象
+    var game = {
+      refresh: 10,
+      init: function () {
+        board.init()
+        board.draw()
+        ball.init()
+        ball.draw()
+      },
+      start: function () {
+        runner = window.setInterval(function () {
+          clearCanvas()
+          ball.move()
+          board.draw()
+        }, this.refresh)
+      },
+      reset: function () {
+        board.x = 210
+        board.y = 450
+        ball.x = 250
+        ball.y = 444
+        clearCanvas()
+        board.draw()
+        ball.draw()
+        window.clearInterval(runner)
+      },
+      pause: function () {
+        window.clearInterval(runner)
+      }
+    }
+    //初始化板子对象
+    var board = {
+      width: 80,
+      height: 20,
+      speed: 5,
+      x:210,
+      y: 450,
+      init: function () {
+        var canvas = document.createElement('canvas')
+        canvas.width = this.width
+        canvas.height = this.height
+        this.cacheCtx = canvas.getContext('2d')
+        this.cacheCanvas = canvas
+        this.cache()
+      },
+      cache: function () {
+        this.cacheCtx.save()
+        this.cacheCtx.beginPath();
+        this.cacheCtx.fillStyle = 'green'
+        this.cacheCtx.fillRect(0, 0 , this.width, this.height)
+        this.cacheCtx.closePath()
+        this.cacheCtx.restore()
+      },
+      draw: function () {
+        ctx.drawImage(this.cacheCanvas, this.x, this.y)
+      },
+      moveLeft: function () {
+        if (this.x === 0) { return false }
+        this.x = this.x - this.speed < 0 ? 0 : this.x - this.speed
+      },
+      moveRight: function () {
+        var max = 500 - this.width
+        if (this.x === max) { return false }
+        this.x = this.x + this.speed > max ? max : this.x + this.speed
+      }
+    }
+    // 初始化小球对象
+    var ball = {
+      radius: 5,
+      vx: -1,
+      vy: -1,
+      base: 1,
+      x: 250,
+      y: 444,
+      send: false,
+      init: function () {
+        var canvas = document.createElement('canvas')
+        canvas.width = this.radius * 2
+        canvas.height = this.radius * 2
+        this.cacheCtx = canvas.getContext('2d')
+        this.cacheCanvas = canvas
+        this.cache()
+      },
+      cache: function () {
+        this.cacheCtx.save()
+        this.cacheCtx.beginPath()
+        this.cacheCtx.fillStyle = 'red'
+        this.cacheCtx.arc(this.radius , this.radius, this.radius, 0, Math.PI * 2)
+        this.cacheCtx.fill()
+        this.cacheCtx.closePath()
+        this.cacheCtx.restore()
+      },
+      move: function () {
+        if (this.x + this.vx > 500 || this.x + this.vx < 0) {
+          this.vx = -this.vx
+        }
+        if (this.y + this.vy < 0) {
+          this.vy = -this.vy
+        } else if ( this.y + this.vy > 500) {
+          alert('GG!')
+          window.clearInterval(runner)
+        }
+        if (board.x <= this.x && this.x <= board.x + board.width && this.y > 446) {
+          var offset = Math.abs(this.x - (board.x + board.width / 2))
+          console.log(this.base * offset / 20)
+          this.vx = this.vx > 0 ? (this.base * offset/ 20) : (-this.base * offset/ 20)
+          this.vy = -this.vy
+        }
+        this.x += this.vx
+        this.y += this.vy
+        this.draw()
+      },
+      draw: function () {
+        ctx.drawImage(this.cacheCanvas, this.x - this.radius, this.y - this.radius)
+      }
+    }
+
+    // 清除画布
+    function clearCanvas() {
+      ctx.clearRect(0, 0, 500, 500)
+    }
+
+    //初始化画布
+    game.init()
+
+    document.body.onkeydown = function (e) {
+      var keyCode = e.keyCode
+      if (keyCode === 37) {
+        board.moveLeft()
+      } else if (keyCode === 39) {
+        board.moveRight()
+      } else if (keyCode === 32 && !ball.send) {
+        game.start()
+        console.log('发射！！！！！！！！！！！！！！')
+      } else if (keyCode === 98) {
+        game.reset()
+      } else if (keyCode === 97) {
+        game.pause()
+      }
+      console.log(keyCode)
+      ctx.restore()
+    }
+  }
+</script>
+</html >

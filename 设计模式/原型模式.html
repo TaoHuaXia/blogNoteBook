@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >原型模式</title >
+</head >
+<body >
+
+</body >
+<script>
+  //原型模式：用原型实例指向创建对象的类，适用于创建新的对象的类共享远行对象的属性以及方法
+  //这种方式的独特之处就是不需要使用new来创建，只需要调用一次函数
+  //所有的属性都被添加到protoType上
+  var prototypeExtend = function () {
+    var F = function () { }
+    var len = arguments.length
+    // 将传入的对象的属性全部复制到原型对象上
+    for (var i = 0; i < len; i++) {
+      for (var j in arguments[i]) {
+        F.prototype[j] = arguments[i][j]
+      }
+    }
+
+    return new F()
+  }
+
+  var people = function (name, age) {
+    this.name = name
+    this.age = age
+  }
+  people.prototype.sayName = function () {
+    console.log(5555555555)
+  }
+
+  var machine = function (type) {
+    this.type = type
+  }
+
+  var student = prototypeExtend(new people('wang', 21), new machine('钢铁侠'))
+
+  console.log(student)
+</script>
+</html >

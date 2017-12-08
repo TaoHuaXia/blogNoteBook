@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >外观模式</title >
+  <style>
+    #sss {
+      width: 100px;
+    }
+  </style>
+</head >
+<body >
+<button id='sss' style='color: #ff00ff; height: 250px'>点我吧</button>
+</body >
+<script>
+  //外观模式：为一组复杂的子系统接口提供一个更高级的统一接口，通过这个接口可以使得对子系统接口的访问更加简单
+  //比如整合代码库 $.xxx就是使用到了外观模式进行封装
+  //最直接的例子：各种兼容性的写法：添加事件绑定
+
+//  function addEvent(target, type, fn) {
+//    if (target.addEventListener) {
+//      target.addEventListener(type, fn, false)
+//    } else if(target.attachEvent) {
+//      target.attachEvent('on' + type, fn)
+//    } else {
+//      target['on' + type] = fn
+//    }
+//  }
+//
+//  addEvent(document.getElementById('sss'), 'click', function () {
+//    alert('点击了！')
+//  })
+
+  //PS: 此类函数如果运行次数过多就会出现每次都要进行判断的尴尬局面，所以可以对其进行优化，只有在第一次的时候进行判断
+  function addEvent(target, type, fn) {
+    if (target.addEventListener) {
+      addEvent = function (target, type, fn) {
+        target.addEventListener(type, fn, false)
+      }
+    } else if(target.attachEvent) {
+      addEvent = function (target, type, fn) {
+        target.attachEvent('on' + type, fn)
+      }
+    } else {
+      addEvent = function (target, type, fn) {
+        target['on' + type] = fn
+      }
+    }
+    //动态修改函数的内容 之后需要重新调用一次函数
+    addEvent(target, type, fn)
+  }
+
+  addEvent(document.getElementById('sss'), 'click', function () {
+    alert('点击了！')
+  })
+  console.log(addEvent)
+
+  //之后我们可以将多个经过封装的方法再进行外观模式的封装，就变成了一个方法库：
+//  var myFunc = {
+//    addEvent: function () {},
+//    css: function () {}
+//  }
+  
+  
+  //获取Css样式的兼容性写法：
+  //IE:currentStyle
+  //非IE：getComputedStyle可以获取所有的样式
+  //getPropertyValue(非IE) 与 getAttribute(IE)的作用就是对某些属性的名称进行处理，比如float:火狐cssFloat IE“ styleFloat
+  function getCss(target, name) {
+    var style = target.currentStyle? target.currentStyle : window.getComputedStyle(target, null);
+    if (style.getPropertyValue) {
+      console.log("getPropertyValue：" + style.getPropertyValue(name));
+    } else {
+      console.log("getAttribute：" + style.getAttribute(name));
+    }
+  }
+
+  getCss(document.getElementById('sss'), 'color')
+</script>
+</html >

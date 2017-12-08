@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >工厂模式</title >
+</head >
+<body >
+<script>
+
+  class Student {
+    constructor(name) {
+      this.name = name
+    }
+    sayName() {
+      console.log('学生' + this.name)
+    }
+  }
+  class Teacher {
+    constructor(name) {
+      this.name = name
+    }
+    sayName() {
+      console.log('老师' + this.name)
+    }
+  }
+
+  // 简单工厂， 根据参数返回不同的类的实例，不需要关心对应的基类是什么，只需要关心需要什么类型的实例
+
+
+  // 函数方式，缺点是当添加一个新的类时，需要同时书写新类并同步修改工厂方法
+//  const factory = (type, arguments) => {
+//    switch (type) {
+//      case 'student':
+//        return new Student(...arguments)
+//      case 'teacher':
+//        return new Teacher(...arguments)
+//      default:
+//        return null
+//    }
+//  }
+//
+//  let stu = factory('student', ['王艺桦'])
+//  stu.sayName()
+//
+//  let teacher = factory('teacher', ['王光明'])
+//  teacher.sayName()
+
+  //提升为类的方式,可以通过调用特定方法来对进行特殊的处理，当内容太多是还是需要分开来写
+
+//  class Factory  {
+//    constructor(type, content) {
+//      // 公共的属性
+//      this.type = type
+//      this.content = content
+//    }
+//    student() {
+//      // 特殊的操作
+//      this.name = 'wnag'
+//      this.showName = function () {
+//        console.log('学生' + this.content)
+//      }
+//    }
+//    teacher() {
+//      // 特殊的操作
+//      this.class = '教授'
+//      this.showClass = function () {
+//        console.log(this.class + this.content)
+//      }
+//    }
+//    //公共的方法
+//    sayType() {
+//      console.log(this.type)
+//    }
+//  }
+//  let stu = new Factory('student', '王艺桦')
+//  stu.student()
+//  stu.sayType()
+//  stu.showName()
+//
+//  let teacher = new Factory('teacher', '王光明')
+//  teacher.teacher()
+//  teacher.sayType()
+//  teacher.showClass()
+
+</script>
+</body >
+</html >

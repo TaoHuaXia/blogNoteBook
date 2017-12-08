@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >单例模式</title >
+</head >
+<body >
+
+</body >
+<script>
+  //单例模式即为只允许创造一个实例，一个普通的对象也可以说成一个单例
+  class People {
+    constructor(name) {
+      if (!!People._ins) {
+        throw Error('please use getIns to get the instance')
+      }
+      this.name = name
+      People._ins = this
+      this.init()
+    }
+    init() {
+      this.age = 111
+    }
+  }
+  //饿汉模式，立即就实例化一个实例
+//  People._ins =  new People('sss')
+  //懒汉模式：只有当调用new 或者 getIns的时候才会去实例化
+  People.getIns = function () {
+    if (People._ins) {
+      return People._ins
+    }
+    return new People()
+  }
+  console.log(People.getIns())
+  console.log(People._ins)
+
+
+</script>
+</html >

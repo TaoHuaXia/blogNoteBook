@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Title</title >
+  <style>
+    #ss {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background-color: aqua;
+    }
+    #dd {
+      position: absolute;
+      left: 100px;
+      right: 100px;
+      width: 100px;
+      height: 100px;
+      background-color: darkgreen;
+    }
+  </style>
+</head >
+
+<body  style='height: 2000px'>
+<button id='ssdd'>点击直升9999级</button>
+<script>
+  function debounce(func, delay) {
+    var lastEvent = null;
+    return function () {
+      clearTimeout(lastEvent);
+      lastEvent = setTimeout(func, delay);
+    }
+  }
+  function throttle (func, delay) {
+    var last = +new Date();
+    return function () {
+      var current = +new Date();
+      if (current - last >= delay) {
+        func()
+        last = current
+      }
+    }
+  }
+  document.getElementById('ssdd').onclick = throttle(function () {
+    console.log('哈哈哈哈哈')
+  }, 1000)
+</script>
+</body >
+</html >
