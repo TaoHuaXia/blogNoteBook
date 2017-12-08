@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >适配器模式</title >
+</head >
+<body >
+
+</body >
+<script>
+  //适配器模式是解决两个类或者两个对象/方法之间接口不兼容的情况，通过将源进行处理使其可以适用于目标对象
+  //要对目标进行适配就必须知道目标以及源的内部结构，这是与外观模式不同的地方
+
+  //使用场景：
+  //1.参数适配,可以对参数进行默认值的操作，必传的未传入可以通过Null来判断
+
+  function sayPeople(obj) {
+    var argAdapter = {
+      name: null,
+      age: null,
+      sex: null,
+      grade: '保密',
+      hobby: '不跟你说'
+    }
+    for (var i in argAdapter) {
+      argAdapter[i] = obj[i] || argAdapter[i]
+    }
+    console.log(argAdapter)
+  }
+
+  sayPeople({
+    name: 'wang',
+    age: 21,
+    sex: 'man',
+  })
+
+  //2.数据适配 前后端数据处理，接口间数据处理等
+
+  function outputArr() {
+    return ['王', 21, 'man']
+  }
+  function inputObj(obj) {
+    console.log(obj.name)
+  }
+  function adapter(arr) {
+    return {
+      name: arr[0],
+      age: arr[1],
+      sex: arr[2]
+    }
+  }
+  inputObj(adapter(outputArr()))
+</script>
+</html >
