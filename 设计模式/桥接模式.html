@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >桥接模式</title >
+</head >
+<body >
+<button id='button1'>按钮1</button>
+<button id='button2'>按钮2</button>
+</body >
+<script>
+  //先抽象提取公用部分，然后将实现与抽象通过桥接的方法链接在一起，实现解耦的作用,以应对系统的多维的变化
+  //eg:绑定事件
+//  document.getElementById('button1').onmouseover = function () {
+//    this.style.color = '#ff00ff'
+//  }
+//  document.getElementById('button2').onmouseover = function () {
+//    this.style.color = '#ff0000'
+//  }
+  //提供公共部分
+  function changeColor(dom, color) {
+    dom.style.color = color
+  }
+
+  //使用桥接模式对上面的进行改造
+  document.getElementById('button1').onmouseover = function () {
+    changeColor(this, '#ff00ff')
+  }
+  document.getElementById('button2').onmouseover = function () {
+    changeColor(this, '#ff0000')
+  }
+
+
+  //桥接模式最主要的特点就是将实现层与抽象层解构分离，使两部分可以独立变化，主要在于结构之间的解构，
+  // 而抽象工厂模式与创建者模式主要在于创建
+
+  //为对象拓展方法的桥接方法
+  function addFunc(target, extend) {
+    for ( var i  in extend) {
+      if (extend.hasOwnProperty(i)) {
+        target[i] = extend[i]
+      }
+    }
+  }
+
+  var people = {
+
+  }
+  addFunc(people, {
+    sayName: function () {
+      console.log('ssss')
+    }
+  })
+  people.sayName()
+</script>
+</html >

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >组合模式</title >
+</head >
+<body >
+
+</body >
+<script>
+  //组合模式是将整个系统拆分为一个树状结构，整个系统由不同的子组件层层嵌套产生
+  //正类似于react中的组件化开发所表达的意思
+  //只不过在面向对象开发中会涉及到基类等问题
+
+  class FormItem {
+    constructor() {
+      this.element = null
+    }
+
+    init() {
+      throw Error('请重写此方法')
+    }
+
+    getValue() {
+      throw Error('请重写此方法')
+    }
+  }
+
+  class InputItem extends FormItem {
+    constructor(defaultValue, placeholder) {
+      super()
+      this.init(defaultValue, placeholder)
+    }
+
+    init(defaultValue, placeholder) {
+      this.element =  document.createElement('input')
+      this.element.type = 'text'
+      this.element.value = defaultValue
+      this.element.placeholder = placeholder
+    }
+
+    getValue() {
+      return this.element.value
+    }
+  }
+
+  class Form {
+    constructor() {
+      this.children = []
+      this.element = null
+      this.init()
+    }
+
+    init() {
+      this.element = document.createElement('form')
+      document.body.appendChild(this.element)
+    }
+
+    add(ins) {
+      this.element.appendChild(ins.element)
+      this.children.push(ins)
+    }
+  }
+
+  let form = new Form()
+  form.add(new InputItem('王艺桦', '请填写您的名称'))
+  form.add(new InputItem('asdf', 'asdf'))
+
+
+</script>
+</html >

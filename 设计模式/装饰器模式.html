@@ -5,9 +5,9 @@
   <title >装饰器模式</title >
 </head >
 <body >
-  <button id='test'>点我吧</button>
+<button id='test' >点我吧</button >
 </body >
-<script>
+<script >
   //装饰模式就是在不改变原对象的基础上（不知道内部的逻辑）对其进行进行拓展
   //适配器模式是对内部结构的重组
   document.getElementById('test').onclick = function () {
@@ -29,5 +29,44 @@
   decorator(document.getElementById('test'), function () {
     console.log('王艺桦')
   })
-</script>
+
+//  //es6class装饰器同样可用
+//  @addMethod
+//  class people {
+//    constructor() {
+//
+//    }
+//    @addLog
+//    sayName() {
+//      console.log('name')
+//    }
+//  }
+//
+//  //对整个类进行装饰
+//  function addMethod(target) {
+//    Object.assign(target.prototype, {
+//      sayLiHai: function () {
+//        console.log(666)
+//      }
+//    })
+//  }
+//
+//  //对某个方法进行装饰
+//  // target：对象实例
+//  // name: 方法名称
+//  // descriptor对象原来的值如下
+//  // {
+//  //   value: specifiedFunction,
+//  //   enumerable: false,
+//  //   configurable: true,
+//  //   writable: true
+//  // };
+//  function addLog(target, name, descriptor) {
+//    let fn = descriptor.value
+//    descriptor.value = function () {
+//      fn.apply(this, arguments)
+//      console.log(name)
+//    }
+//  }
+</script >
 </html >
