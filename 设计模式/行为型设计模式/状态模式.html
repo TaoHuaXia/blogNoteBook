@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >状态模式</title >
+</head >
+<body >
+<script>
+  //状态模式的目的是解决程序中条件特别多、复杂的分支判断语句的问题，他将每一个分支都转化为一个独立的状态来进行处理，解除了
+  //分支之间的耦合又不会每一次都遍历所有的分支
+
+  let states = {
+    run: function () {
+      console.log('run')
+    },
+    shoot: function () {
+      console.log('shoot')
+    },
+    jump: function () {
+      console.log('jump')
+    },
+    runShoot: function () {
+      console.log('走A')
+    },
+    jumpShoot: function () {
+      console.log('天降正义')
+    }
+  }
+  //在正常的if else中，runShoot jumpShoot等组合的判断就显得非常的麻烦
+  //将其状态化之后，不需要判断，只需要直接调用相应的状态就可以了states['shoot']
+
+
+  //一般便于状态名称的统一，需要单独提取出一个静态变量来维护各个状态的名称
+  // const states_name = {RUN: 'xxxx'}
+  // states_name[RUN]
+  //这样如果有变动的话只需要修改相关配置就可以了
+</script>
+
+</body >
+</html >

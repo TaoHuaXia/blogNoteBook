@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >命令模式</title >
+</head >
+<body >
+<script>
+  //命令模式跟策略模式非常像，但是两者的区别在于达成的目的是否是一致的
+  //策略模式 就相当于行军打仗，不管是侧翼包抄还是全军突击白刃战，目的都是 战斗胜利
+  //而命令模式则是通过不同的命令来达到不同的效果，比如侧翼包抄、全军突击，士兵会根据命令做出不同的反应
+  //所以两者的区别在于目的是否一致，相同点在于对方法进行封装并且易于使用，提高开发效率与解耦
+  let funcs = {
+    log: function (text) {
+      console.log(text)
+    },
+    warn: function (text) {
+      console.warn(text)
+    },
+    error: function (text) {
+      console.error(text)
+    }
+  }
+
+  let easy_console = function (text, type) {
+    if (funcs[type]) {
+      funcs[type](text)
+    } else {
+      alert('没有此方法')
+    }
+  }
+
+  easy_console('看示例大', 'nonono')
+  easy_console('看示例大', 'log')
+  easy_console('看示例大家', 'warn')
+  easy_console('看示例大家按父级', 'error')
+</script>
+</body >
+</html >

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >中介者模式</title >
+</head >
+<body >
+<script>
+  // 通过中介者对象封装对象之间的交互，解耦
+  // 结合了访问者模式，可在触发的回调函数中通过this访问到触发事件的原对象
+  // 与观察者的区别详见观察者模式
+
+  // !! 中介者 顾名思义，相当于一个中央的控制台，封装了对象之间的交互，例如飞机与塔台
+  class Mediator {
+    constructor() {
+      throw Error('can not create a Mediator instance, please use Mediator.func() directly')
+    }
+
+    static addEventListener(target, type, func) {
+      if (Mediator.events[type]) {
+        Mediator.events[type].push({func, target})
+      } else {
+        Mediator.events[type] = [{func, target}]
+      }
+    }
+
+    static dispatchEvent(type, params) {
+      if (Mediator.events[type]) {
+        Mediator.events[type].forEach(item => {
+          item.func.call(item.target, params)
+        })
+      } else {
+        throw Error('can not find this type event')
+      }
+    }
+  }
+  Mediator.events = {}
+
+  let test = {
+    name: 'wangyihua'
+  }
+
+  Mediator.addEventListener(test, 'sayName', function (params) {
+    console.log(this.name, params)
+  })
+
+  Mediator.dispatchEvent('sayName', 'Houlihai')
+</script>
+
+</body >
+</html >

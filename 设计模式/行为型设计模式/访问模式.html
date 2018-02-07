@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >访问模式</title >
+</head >
+<body >
+<script>
+ //由于有时一些方法需要工作在其他的作用域中执行，就出现了访问者模式
+  //定义是针对于对象结构中的元素，定义在不改变该对象的前提下访问结构中元素的新方法
+  //本质是使用call()来为方法提供新的作用域
+
+  //比如类型校验
+  function checkType(target, type) {
+    console.log(Object.prototype.toString.call(target).toLowerCase().replace('object ', '').indexOf(type) !== -1)
+  }
+  let a = {}
+  checkType(a, 'object')
+</script>
+</body >
+</html >

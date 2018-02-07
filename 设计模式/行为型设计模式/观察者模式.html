@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >观察者模式</title >
+</head >
+<body >
+<ul id='list'>
+
+</ul>
+
+<input id='input'/>
+<button id='btn'>发布</button>
+<script>
+  //观察者模式又被称为发布-订阅者模式（消息机制），定义了一种依赖关系，解决了主体对象与观察者之间功能的耦合
+  //两者可以通过这样的方式进行解耦，互不影响
+  //类似于事件监听机制（消息机制）
+  //观察者模式最主要的作用是解决类或者是对象之间的耦合，解耦两个相互依赖的对象，使其依赖于观察者的详细机制
+  //这样两个模块就不需要相互引用 而是通过观察者模式注册、发布信息就可以了
+
+  //本质是当一个对象触发某个方法或者发生某些变动时，观察者对象能够知道并且相应这些改变
+  //所以就类似于事件监听，正规的观察者模式是是通过一个方法来将订阅者和发布者直接产生依赖关系、
+  //a.addEventListener('scroll', function() {b.sayName()})
+  //而中介者模式是在这个基础上加了一个中介者对象来完成这些操作
+  //所以正常的情况来说，一般是两者结合来进行使用
+
+
+  class Observer {
+    constructor () {
+      throw Error('Please use addEventListener... func directly, do not create a instance!')
+    }
+
+    static addEventListener(type, func) {
+      if (Observer.events[type]) {
+        Observer.events[type].push(func)
+      } else {
+        Observer.events[type] = [func]
+      }
+    }
+
+    static dispatchEvent(type, params) {
+      if (!Observer.events[type]) {
+        console.warn('未定义此类型的事件！')
+        return false
+      } else {
+        Observer.events[type].forEach(item => {
+          item(params)
+        })
+      }
+    }
+
+    static removeEventListener(type, func) {
+      if (!Observer.events[type]) {
+        console.warn('不能删除未定义的事件')
+        return false
+      } else {
+        Observer.events[type].forEach((item, index) => {
+          if (item === func) {
+            Observer.events[type].splice(index, 1)
+          }
+        })
+      }
+    }
+  }
+  Observer.events = {}
+
+  //评论模块定义事件
+  function addItem (data) {
+    let li = document.createElement('li')
+    li.innerText = data
+    document.getElementById('list').appendChild(li)
+    Observer.removeEventListener('publishComment', addItem)
+  }
+  Observer.addEventListener('publishComment', addItem)
+
+  //评论区发布事件
+  document.getElementById('btn').onclick = function () {
+    let value = document.getElementById('input').value
+    if (!value) {
+      console.warn('输入值不能为空！！')
+      return false
+    } else {
+      Observer.dispatchEvent('publishComment', value)
+    }
+  }
+
+</script>
+</body >
+</html >

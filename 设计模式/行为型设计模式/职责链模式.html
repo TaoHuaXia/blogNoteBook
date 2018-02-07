@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >职责链模式</title >
+</head >
+<body >
+<p id='sss'>获取用户信息中。。。</p>
+<script>
+  //职责链模式定义了请求的传递方向，通过多个对象对请求的传递完成一个逻辑复杂的操作
+  //简单来讲，责任链模式将一个比较复杂的处理过程颗粒化为一个个单独的模块来进行处理
+  //每个模块互相独立，不仅便于修改而且可以单独进行测试
+
+  let getInfo = function (id) {
+    console.log('获取' + id + '的相关信息')
+    getInfo.next && getInfo.next({
+        title: '王艺桦'
+    })
+  }
+
+
+  let formatData = function (data) {
+    let formatedData = {}
+    formatedData.name = data.title
+    formatData.next && formatData.next(formatedData)
+  }
+
+  let updateDom = function (data) {
+    document.getElementById('sss').innerText = data.name
+
+    updateDom.next && updateDom.next(data)
+  }
+
+  getInfo.next = formatData
+  formatData.next = updateDom
+
+  setTimeout(function () {
+    getInfo(546546565)
+  }, 2000)
+
+  //另外一个例子
+  var Form = function(_type) {
+    this.type = _type;
+  }
+
+  //处理器
+  var Handler = function() {
+    this.form = null;
+    this.next = null;
+    this.setNext = function(_handler) {
+      this.next = _handler;
+    };
+
+    this.handleRequest = function(_form) {
+      this.form = _form;
+    }
+  }
+
+  //直接上级
+  var LeaderHandler = function() {}
+  LeaderHandler.prototype = new Handler();
+  LeaderHandler.prototype.handleRequest = function(_form) {
+    if(_form.type <= 1) {
+      console.log('直接上级已处理');
+    } else {
+      console.log('无法处理，转上级处理');
+      if(this.next) {
+        this.next.handleRequest(_form);
+      }
+    }
+  }
+
+  //总经理
+  var ManagerHandler = function() {}
+  ManagerHandler.prototype = new Handler();
+  ManagerHandler.prototype.handleRequest = function(_form) {
+    if(_form.type <= 2) {
+      console.log('总经理已处理');
+    } else {
+      console.log('无法处理，转上级处理');
+      if(this.next) {
+        this.next.handleRequest(_form);
+      }
+    }
+  }
+
+  //董事长
+  var BossHandler = function() {}
+  BossHandler.prototype = new Handler();
+  BossHandler.prototype.handleRequest = function(_form) {
+    if(_form.type <= 3) {
+      console.log('董事长已处理');
+    } else {
+      console.log('无法处理，转上级处理');
+      if(this.next) {
+        this.next.handleRequest(_form);
+      }
+    }
+  }
+
+  function submitForm(_type) {
+    var form = new Form(_type);
+
+    var leader = new LeaderHandler();
+    var manager = new ManagerHandler();
+    var boss = new BossHandler();
+    leader.setNext(manager);
+    manager.setNext(boss);
+
+    leader.handleRequest(form);
+
+
+  }
+
+  submitForm(2);
+
+</script>
+</body >
+</html >

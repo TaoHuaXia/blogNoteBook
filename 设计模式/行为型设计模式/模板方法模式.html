@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >模板方法模式</title >
+</head >
+<body >
+<script>
+  //通过设计一个模板方法来对方法进行重用，虽然这也会导致使用其的子类会必须遵从一些规则
+  //便于规则、样式等等的统一
+
+  //以弹窗为例
+  //TODO 感觉跟享元模式非常相似，类似于拓展的感觉
+  class Modal {
+    constructor () {
+      this.init()
+    }
+    init() {
+      this.timeout = 2000
+      this.element = document.createElement('div')
+      this.element.className = 'modal'
+    }
+
+    show(title, text) {
+      let that = this
+      let h5 = document.createElement('h3')
+      h5.innerText = title
+      this.element.appendChild(h5)
+      let p = document.createElement('p')
+      p.innerText = text
+      this.element.appendChild(p)
+      document.body.appendChild(this.element)
+      setTimeout(function () {
+        document.body.removeChild(that.element)
+      }, this.timeout)
+    }
+  }
+
+  class ConfirmModal extends Modal{
+    constructor () {
+      super()
+    }
+
+    show(title, text) {
+      super.show(title, text)
+      let button = document.createElement('button')
+      button.innerText = '确认'
+      button.onclick = function () {
+        alert('确认！！！！！！！！！！！！')
+      }
+      this.element.appendChild(button)
+    }
+  }
+
+  let modal = new ConfirmModal()
+  modal.show('确认框', '你确定要看么？？')
+
+</script>
+</body >
+</html >

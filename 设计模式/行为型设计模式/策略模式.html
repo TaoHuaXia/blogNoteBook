@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >策略模式</title >
+</head >
+<body >
+<script>
+  //与状态模式很相似，策略模式也是在某个对象内封装了若干个独立的方法，互补干涉，我们只需要根据不同的情况调用不同的方法就可以了
+  //策略模式的出现可以让我们将方法（算法）脱离逻辑而进行独立的开发
+  /// /很多常见的情况使用了如下策略：
+  //1.表单验证type: 'number', 'tel'
+  //2.动画的时间曲线 linear ease-in等
+  //3.webpack的若干种配置等
+  //策略模式的目的在于可以根据不同的情况来使用不同的算法/方法来达到  !! 同一个目的 !!  ，比如排序算法：
+
+  let sort = function (type) {
+    switch (type) {
+      case 'quick':
+        console.log('使用快速排序')
+        break
+      case 'pop':
+        console.log('使用冒泡排序')
+        break
+      default:
+        console.warn('没有此方法，请确认！！')
+    }
+  }
+  sort('nonono')
+  sort('pop')
+</script>
+</body >
+</html >
