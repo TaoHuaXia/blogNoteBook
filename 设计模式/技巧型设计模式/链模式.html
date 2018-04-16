@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >链模式</title >
+</head >
+<body >
+<script>
+  // 链模式比较简单，就是通过在对象的方法中将当前对象返回，就可以实现同一个对象
+  // 多个方法的链式调用使得代码紧凑简洁而高效
+  
+  let $ = function (selector) {
+    return new Jquery(selector)
+  }
+
+  let JqueryBase = function () {
+    this.key = +new Date()
+  }
+
+  JqueryBase.prototype = {
+    getKey : function () {
+      console.log(this.key)
+      return this
+    }
+  }
+
+  JqueryBase.prototype.constructor = JqueryBase
+
+  let Jquery = function (selector) {
+    this.selector = selector
+    this.length = 0
+    JqueryBase.call(this)
+  }
+
+  Jquery.prototype = Object.create(JqueryBase.prototype)
+  Jquery.prototype.deleteKey = function () {
+    this.key = null
+    console.log(this.key)
+    return this
+  }
+//  Jquery.prototype = new JqueryBase()
+
+  console.log($('hahah').getKey().deleteKey())
+</script>
+</body >
+</html >

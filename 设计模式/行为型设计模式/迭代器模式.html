@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >迭代器模式</title >
+</head >
+<body >
+<script>
+  // 迭代器模式：
+  // 迭代器方便了我们顺序的遍历对象，在我们的日常使用中就离不开各种迭代器
+  // 例如 every filter some forEach等等都是迭代器
+  // 这些迭代器使得我们不需要每次都去写一遍对目标对象的遍历，直接调用封装好的方法就好了
+  // 简化的循环语句实质上隐形地移动到了迭代器中
+  // 但是迭代器并不局限于普通的遍历元素，他还有许多应用的场景
+
+
+  // 1.在我们访问元素的时候，经常遇到如下情况：
+  let info = {
+    server: {
+      name: {
+        firstName: 'Wang'
+      }
+    }
+  }
+  // 有时info下不一定会有server这个属性，而server下不一定有name这个属性，所以我们通常要这样写：
+  console.log(info && info.server && info.server.name)
+  // 这会让我们的代码凌乱不堪，一旦多了起来就很难阅读
+  // 在这种时候我们就可以使用迭代器模式来进行处理
+
+  let attrGetter = (target, key) => {
+    if (!target || !key) {
+      return undefined
+    }
+    let keys = key.split('.')
+
+    for (let i = 0, len = keys.length; i < len; i++) {
+      if (target[keys[i]] !== undefined) {
+        target = target[keys[i]]
+      } else {
+        return undefined
+      }
+    }
+    return target
+  }
+
+  console.log(attrGetter(info, 'server.name.firstName'))
+</script>
+</body >
+</html >

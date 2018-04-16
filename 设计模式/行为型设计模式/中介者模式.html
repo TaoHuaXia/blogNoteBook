@@ -13,20 +13,20 @@
   // !! 中介者 顾名思义，相当于一个中央的控制台，封装了对象之间的交互，例如飞机与塔台
   class Mediator {
     constructor() {
-      throw Error('can not create a Mediator instance, please use Mediator.func() directly')
+      this.events = {}
     }
 
-    static addEventListener(target, type, func) {
-      if (Mediator.events[type]) {
-        Mediator.events[type].push({func, target})
+    addEventListener(target, type, func) {
+      if (this.events[type]) {
+        this.events[type].push({func, target})
       } else {
-        Mediator.events[type] = [{func, target}]
+        this.events[type] = [{func, target}]
       }
     }
 
-    static dispatchEvent(type, params) {
-      if (Mediator.events[type]) {
-        Mediator.events[type].forEach(item => {
+    dispatchEvent(type, params) {
+      if (this.events[type]) {
+        this.events[type].forEach(item => {
           item.func.call(item.target, params)
         })
       } else {
@@ -34,17 +34,18 @@
       }
     }
   }
-  Mediator.events = {}
 
   let test = {
     name: 'wangyihua'
   }
 
-  Mediator.addEventListener(test, 'sayName', function (params) {
+  let mediator = new Mediator()
+
+  mediator.addEventListener(test, 'sayName', function (params) {
     console.log(this.name, params)
   })
 
-  Mediator.dispatchEvent('sayName', 'Houlihai')
+  mediator.dispatchEvent('sayName', 'Houlihai')
 </script>
 
 </body >

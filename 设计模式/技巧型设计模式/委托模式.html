@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >委托模式</title >
+</head >
+<body >
+<div id='container'>
+  <button id='sss'>ddddd</button>
+</div>
+<script>
+  // 委托模式
+  // 多个对象接收并处理同样的请求，可以将请求委托给另一个对象统一处理
+  // 例如事件委托，可以将子元素的点击事件委托给父元素处理
+  // 同时 委托模式可以避免内存的泄露，在使用引用计数垃圾回收机制的浏览器中，如果只清除了dom，
+  // 但是没有清除dom绑定的话，就会出现内存的泄露
+  let getDom = id => {
+    return document.getElementById(id)
+  }
+//  getDom('sss').onclick = function () {
+//    getDom('container').innerHTML = null
+//  }
+
+  // 事件委托封装
+  let addEvent = function (target, eventType, callback) {
+    if (docuemnt.addEventListener) {
+        addEvent = function (target, eventType, callback) {
+          target.addEventListener(eventType, callback)
+        }
+    } else if (docuemnt.attachEvent) {
+      addEvent = function (target, eventType, callback) {
+        target.attachEvent('on' + eventType, callback)
+      }
+    } else {
+      target['on' + eventType] = callback
+    }
+    addEvent(target, eventType, callback)
+  }
+  
+  
+  let delegate = function (target, tag, eventType, callback) {
+    addEvent(target, eventType, function (e) {
+      let event = e || window.event
+      let srcElement = event.target || event.srcElement
+      if (srcElement.tagName.toLowerCase() === tag) {
+        callback()
+      }
+    })
+  }
+
+  delegate(getDom('container'), 'button', 'click', function () {
+   console.log(addEvent)
+  })
+</script>
+</body >
+</html >
