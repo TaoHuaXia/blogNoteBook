@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width"/>
+  <title >Title</title >
+</head >
+<body >
+<!--<picture>-->
+  <!--<source srcset='./img/img_90000.png'>-->
+  <!--<source media='(min-width: 1800px)' srcset='./img/img_1800.png'>-->
+  <!--<source media='(min-width:700px) and (max-width: 1800px)' srcset='./img/img_900.png'>-->
+  <!--<source media='(max-width: 700px)' srcset='./img/img_500.png'>-->
+  <!--<img src='./img/img_500.png' alt='this is a img' />-->
+<!--</picture>-->
+<div>
+  <img
+    src='img/img_500.png'
+    srcset='./img/img_1800.png 1800w, ./img/img_900.png 900w, ./img/img_500.png 500w'
+    sizes='(max-width: 900px) 500px, (max-width: 1500px) 900px, 1800px'
+  />
+</div>
+</body >
+</html >

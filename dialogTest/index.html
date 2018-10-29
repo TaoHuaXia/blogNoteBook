@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width"/>
+  <title >Title</title >
+</head >
+<body >
+<button id='closeBtn'>点击切换</button>
+<dialog id='dialog'>
+  <h2>测试弹窗哦！</h2>
+  <p>测试弹窗哦！</p>
+  <button onclick='closeModal()'>ddd</button>
+</dialog>
+</body >
+<script>
+  // dialog 测试
+  var modal = document.getElementById('dialog')
+  var button = document.getElementById('closeBtn')
+  modal.onclose = function () {
+    console.log('onclose调用啦')
+    console.log(modal.returnValue)
+  }
+  modal.oncancel = function () {
+    console.log('oncancel调用啦')
+    console.log(modal.returnValue)
+  }
+  modal.onclick= function (e) {
+    console.log('onclick调用啦')
+    console.log('target:' + e.target.tagName)
+  }
+  button.onclick = function () {
+    console.log('打开按钮点击')
+    console.log(modal.open)
+    modal.showModal()
+//  modal.show()
+    console.log(modal.open)
+//  modal.open = true
+//  modal.setAttribute('open', true)
+  }
+  function closeModal () {
+    console.log('关闭弹窗按钮点击')
+    modal.close('关闭弹窗returnValue')
+    console.log(modal.returnValue)
+  }
+</script>
+</html >
