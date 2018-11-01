@@ -8,11 +8,11 @@
 <body >
 <!-- Picture正常判定 -->
 
-<picture>
-  <source media='(max-width: 600px)' srcset='./img/img_500.png'>
-  <source media='(max-width:1200px)' srcset='./img/img_1000.png'>
-  <img src='./img/img_1500.png' alt='this is a img' />
-</picture>
+<!--<picture>-->
+  <!--<source media='(max-width: 600px)' srcset='./img/img_500.png'>-->
+  <!--<source media='(max-width:1200px)' srcset='./img/img_1000.png'>-->
+  <!--<img src='./img/img_1500.png' alt='this is a img' />-->
+<!--</picture>-->
 
 <!-- 使用错误的Url -->
 
@@ -29,6 +29,21 @@
   <!--<img src='./img/img_500.png' alt='this is a img' />-->
   <!--<source media='(max-width: 600px)' srcset='./img/img_500.png'>-->
   <!--<source media='(max-width:1200px)' srcset='./img/img_1000.png'>-->
+<!--</picture>-->
+
+<!-- 使用type属性判断图片类型是否支持 -->
+
+<!--<picture>-->
+  <!--<source type='image/webp' srcset='./img/img_500.png'>-->
+  <!--<img src='./img/img_500.png' alt='this is a img' />-->
+<!--</picture>-->
+
+<!-- 使用type属性以及media的组合 -->
+
+<!--<picture>-->
+  <!--<source type='image/null' media='(max-width: 5000px)' srcset='./img/img_1000.png'>-->
+  <!--<source type='image/webp' media='(max-width: 5000px)' srcset='./img/img_1500.png'>-->
+  <!--<img src='./img/img_500.png' alt='this is a img' />-->
 <!--</picture>-->
 
 <!-- 通过像素密度处理图片自适应-->
