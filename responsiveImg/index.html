@@ -6,19 +6,60 @@
   <title >Title</title >
 </head >
 <body >
+<!-- Picture正常判定 -->
+
+<picture>
+  <source media='(max-width: 600px)' srcset='./img/img_500.png'>
+  <source media='(max-width:1200px)' srcset='./img/img_1000.png'>
+  <img src='./img/img_1500.png' alt='this is a img' />
+</picture>
+
+<!-- 使用错误的Url -->
+
 <!--<picture>-->
   <!--<source srcset='./img/img_90000.png'>-->
-  <!--<source media='(min-width: 1800px)' srcset='./img/img_1800.png'>-->
-  <!--<source media='(min-width:700px) and (max-width: 1800px)' srcset='./img/img_900.png'>-->
-  <!--<source media='(max-width: 700px)' srcset='./img/img_500.png'>-->
+  <!--<source media='(max-width: 600px)' srcset='./img/img_500.png'>-->
+  <!--<source media='(max-width:1200px)' srcset='./img/img_1000.png'>-->
   <!--<img src='./img/img_500.png' alt='this is a img' />-->
 <!--</picture>-->
-<div>
-  <img
-    src='img/img_500.png'
-    srcset='./img/img_1800.png 1800w, ./img/img_900.png 900w, ./img/img_500.png 500w'
-    sizes='(max-width: 900px) 500px, (max-width: 1500px) 900px, 1800px'
-  />
-</div>
+
+<!-- img放在首位 -->
+
+<!--<picture>-->
+  <!--<img src='./img/img_500.png' alt='this is a img' />-->
+  <!--<source media='(max-width: 600px)' srcset='./img/img_500.png'>-->
+  <!--<source media='(max-width:1200px)' srcset='./img/img_1000.png'>-->
+<!--</picture>-->
+
+<!-- 通过像素密度处理图片自适应-->
+
+<!--<img-->
+  <!--src='img/img_500.png'-->
+  <!--srcset='./img/img_1500.png 3x, ./img/img_1000.png 2x, ./img/img_500.png 1x'-->
+<!--/>-->
+
+<!-- 在使用x描述符时，sizes不会影响像素密度的判断 -->
+
+<!--<img-->
+  <!--src='img/img_500.png'-->
+  <!--srcset='./img/img_1500.png 3x, ./img/img_1000.png 2x, ./img/img_500.png 1x'-->
+  <!--sizes='(max-width: 600px) 500px, (max-width: 1200px) 1000px, 1800px'-->
+<!--/>-->
+
+<!-- 通过srcset/seizes的组合处理图片自适应 -->
+
+<!--<img-->
+  <!--src='img/img_500.png'-->
+  <!--srcset='./img/img_1500.png 1500w, ./img/img_1000.png 1000w, ./img/img_500.png 500w'-->
+  <!--sizes='(max-width: 600px) 500px, (max-width: 1200px) 1000px, 1800px'-->
+<!--/>-->
+
+<!-- 当sizes命中值在srcset无法找到相等值的时候 -->
+
+<!--<img-->
+  <!--src='img/img_500.png'-->
+  <!--srcset='./img/img_1500.png 1500w, ./img/img_1000.png 1000w, ./img/img_500.png 500w'-->
+  <!--sizes='3000px'-->
+<!--/>-->
 </body >
 </html >
