@@ -62,6 +62,43 @@
     // iterator的原理就是在构造函数的原型链上或者某个实例上定义Symbol.iterator方法
     // 该方法返回一个iterator对象，遍历器就会调用iterator对象的next方法，返回第一个值的同时
     // 将指针指向下一个目标，在上述例子中，指针就是数组的index
+
+    // 看了上面的描述，如果你比较熟悉es6，就可能会想起另外一个特性：generator
+    // generatorqi其实就是一个遍历器（iterator）生成函数，因为他正是通过next来控制yield输出
+    function *count() {
+      yield 0
+      console.log('11111')
+      yield 1
+
+      return 2
+
+    }
+
+    let iterator = count()
+    console.log('----------generator----------')
+    console.log(iterator.next())
+    console.log('--------after first next------------')
+    console.log(iterator.next())
+    console.log('--------after second next------------')
+    console.log(iterator.next())
+    console.log('--------after third next------------')
+    console.log(iterator.next())
+
+    // 从输出结果来看，只有当执行yield的时候函数才会输出内容，而且会停留在当前yield上
+    // 只有当再次调用next的时候，才会继续执行，直到遇见下一个yield
+    // 当函数执行完成，或者遇到return的时候，说明已经执行完了，done会被置为true
+
+
+    // 现在我们将上面的那个例子的遍历器生成方法换成count试一下！
+
+    iteratorableObj[Symbol.iterator] = count
+    console.log('------count作为iterator------')
+    for (let i of iteratorableObj) {
+      console.log(i)
+    }
+
+    // yield 输出的值被正确打印了出来，只不过对于iterator来说，只要done变为true，就说明遍历结束了，所以
+    // 当return 2 时，yield输出的值为{value: 2, done: true}，所以就无法显示2了
 </script>
 </body>
 </html>
