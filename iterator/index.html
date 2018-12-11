@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // 对象没有定义iterator接口，所以无法使用for of 遍历
+    try {
+      let obj = {
+        ss: 'ss'
+      }
+      for (let i of obj) {
+        console.log(i)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+
+    // 那我们就给他加一个：
+
+    let iteratorableObj = {
+      ss: 'ss',
+      dd: 'dd',
+      [Symbol.iterator]: function () {
+        let arr = []
+        for (let attr in this) {
+          if (this.hasOwnProperty(attr)) {
+            arr.push({
+              label: attr,
+              value: this[attr]
+            })
+          }
+        }
+        let index = 0
+        let length = arr.length
+        return {
+          next() {
+            if (index < length) {
+              return {
+                value: arr[index++],
+                done: false
+              }
+            } else {
+              return {
+                done: true
+              }
+            }
+          }
+        }
+      }
+    }
+    for (let i of iteratorableObj) {
+      console.log(i)
+    }
+</script>
+</body>
+</html>
