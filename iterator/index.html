@@ -51,9 +51,17 @@
         }
       }
     }
+
+    // 发现对象可以顺利遍历拉！
     for (let i of iteratorableObj) {
       console.log(i)
     }
+
+    // iterator 相当于实现遍历的接口，有了它就可以使用for of对其进行遍历
+    // 使用Symbol的原因就是方式属性重复
+    // iterator的原理就是在构造函数的原型链上或者某个实例上定义Symbol.iterator方法
+    // 该方法返回一个iterator对象，遍历器就会调用iterator对象的next方法，返回第一个值的同时
+    // 将指针指向下一个目标，在上述例子中，指针就是数组的index
 </script>
 </body>
 </html>
