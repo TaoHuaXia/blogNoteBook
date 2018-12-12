@@ -99,6 +99,33 @@
 
     // yield 输出的值被正确打印了出来，只不过对于iterator来说，只要done变为true，就说明遍历结束了，所以
     // 当return 2 时，yield输出的值为{value: 2, done: true}，所以就无法显示2了
+
+
+    // 所以虽然generator可以作为天然的遍历器生成方法，但是它不仅限于此，它还可以通过next进行传值
+
+    function *workFlow() {
+      let base = 2
+      let dealType = yield base
+      console.log('dealType：', dealType)
+      if (dealType === 1) {
+        return base / 2
+      } else {
+        return base * 2
+      }
+    }
+
+    console.log('-------generator传值---------')
+    let flow = workFlow()
+    console.log(flow.next())
+    console.log(flow.next(1))
+
+    // 首先，这个例子的执行顺序是这样的：
+    // 1.flow.next()，generator启动，到yield base停止，输出 2
+    // 2.flow.next(1)，yield base 返回next传入的值，这样dealType就会被设置为1
+    // 3.函数继续进行，根据dealType的值来对base进行处理。
+
+
+    // generator的这个特点使得我们可以在函数进行过程中，根据过程的情况来干预后续的处理
 </script>
 </body>
 </html>
