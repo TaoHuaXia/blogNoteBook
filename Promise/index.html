@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Promise注意点以及简单实现（ES5）</title >
+</head >
+<body >
+<script>
+   // Promise的时序
+//   let test = new Promise(resolve => {
+//     console.log('Promise Start')
+//     setTimeout(() => console.log('timeout1'), 0)
+//     resolve('OK!')
+//   })
+//   setTimeout(() => console.log('timeout2'), 0)
+//   test.then(res => {
+//     console.log(res)
+//   })
+//   console.log('loop end')
+
+  // 抛出错误，then()与catch()同时定义时只会触发then()的reject回调
+  // let test = new Promise(() => {
+  //   throw new Error('Promise报错啦')
+  // }).then(
+  //   null,
+  //   err => console.log('reject, err')
+  // ).catch(err => {
+  //   console.log('catch', err)
+  // })
+
+  // 与上面的代码对比可以发现，在Promise中，reject的作用其实等同于抛出错误
+  // let test = new Promise((resolve, reject) => {
+  //   reject('出错啦')
+  // }).catch(err => {
+  //   console.log('catch', err)
+  // })
+
+  // catch同样可以捕获resolve,reject中的错误，所以推荐使用catch而非reject来处理错误，更接近try catch的写法
+  // let test = new Promise((resolve, reject) => {
+  //   resolve('OK')
+  //   // reject('NO')
+  // }).then(
+  //   val => {
+  //     console.log(val)
+  //     throw new Error('resolve报错啦')
+  //   },
+  //   err => {
+  //     console.log(err)
+  //     // throw new Error('reject报错啦')
+  //   }
+  // ).catch(err => {
+  //   console.log('catch', err)
+  // })
+
+  // Promise的状态一旦确定，就不会被改变了，所以当调用resolve之后再抛出错误，Promise内的错误就不能被捕获了
+  // let test = new Promise((resolve, reject) => {
+  //   resolve('OK')
+  //   throw new Error('Promise出错')
+  // }).then(
+  //   val => {
+  //     console.log(val)
+  //   }
+  // ).catch(err => {
+  //   console.log('catch', err)
+  // })
+
+  // Promise内产生的错误不会影响外部进程，不会因为报错而终止脚本执行
+  // let test = new Promise(() => {
+  //   throw new Error('Promise出错')
+  // })
+  // setTimeout(console.log, 2000, '没有终止脚本执行哦！')
+
+  // Promise catch()与then()返回的都会被处理成一个新的Promise对象，所以可以进行链式调用,catch里面的错误也可以被后面的catch捕获
+  // let test = new Promise((resolve, reject) => {
+  //   resolve('OK')
+  // }).then(
+  //   val => {
+  //     console.log(val)
+  //     return 'OK2'
+  //   }
+  // ).then(val => { console.log(val)})
+  // let test2 = new Promise((resolve, reject) => {
+  //   reject('NO')
+  // }).catch(
+  //   val => {
+  //     console.log(val)
+  //     throw new Error('NO2')
+  //   }
+  // ).catch(val => { console.log(val)})
+
+  // 当使用了Promise.all封装多个Promise对象的时候，如果其中某个Promise自己定义了catch方法，
+  // 则不会触发Promise.all()中的catch方法
+  // 当Promise定义了自己的then，且没有返回的话，all在then中也不会获取到对应的数据
+  // let test1 = new Promise((resolve) => {
+  //   resolve('test1OK')
+  // }).then(
+  //   val => {
+  //     console.log(val)
+  //     return val
+  //   }
+  // )
+  // let test2 = new Promise((resolve, reject) => {
+  //   resolve('test1OK')
+  // }).then(
+  //   val => {
+  //     console.log(val)
+  //     return val
+  //   }
+  // )
+  // let test2 = new Promise((resolve, reject) => {
+  //   throw new Error('test2 Error')
+  // }).catch(err => err)
+  // let testAll = Promise.all([test1, test2])
+  // testAll.then(res => {
+  //   console.log(res)
+  // }).catch(err => console.log('all catch', err))
+
+//  var IPromise = function (func) {
+//    var that = this
+//    this.status = 'pending'
+//    this.resolveCallback = null
+//    this.rejectCallback = null
+//    this.errorCallBack = null
+//    try {
+//      func && func(this.resolve.bind(this), this.reject.bind(this))
+//    } catch (err) {
+//      setTimeout(function () {
+//        that.errorCallBack && that.errorCallBack(err)
+//      }, 0)
+//    }
+//  }
+//  IPromise.prototype.then = function (resolve, reject) {
+//    this.resolveCallback = resolve.bind(this)
+//    this.rejectCallback = reject.bind(this)
+//    return this
+//  }
+//  IPromise.prototype.catch = function (errorHandler) {
+//    if (this.status === 'pending') {
+//      this.status = 'rejected'
+//    }
+//    this.errorCallBack = errorHandler.bind(this)
+//    return this
+//  }
+//  IPromise.prototype.resolve = function (param) {
+//    console.log(this)
+//    if (this.status === 'pending') {
+//      this.status = 'fulfilled'
+//      this.resolveCallback && this.resolveCallback(param)
+//    }
+//  }
+//  IPromise.prototype.reject = function (param) {
+//    if (this.status === 'pending') {
+//      this.status = 'rejected'
+//      this.rejectCallback && this.rejectCallback(param)
+//    }
+//  }
+//
+//  var promise = new IPromise((resolve, reject) => {
+//    throw new Error('抛出错误啦！')
+//    setTimeout(function () {
+//      resolve('我是拿到的数据哦')
+//    }, 1000)
+//  }).then((res) => {
+//    debugger
+//    console.log('完成啦！！！')
+//    console.log(res)
+//    console.log(this.status)
+//  }, (error) => {
+//    console.log('失败啦！！！')
+//    console.log(error)
+//    console.log(this.status)
+//  }).catch((error) => {
+//    console.log('出错啦')
+//    console.log(error)
+//    console.log(this.status)
+//  })
+//  console.log(promise)
+  async function getName() {
+    await 111
+    return 222
+  }
+  let a = getName()
+  console.log(a)
+</script>
+</body >
+</html >
