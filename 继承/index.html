@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>继承</title>
+</head>
+<body>
+<script>
+  // 1.原型链继承
+  function Aninmal(name) {
+    this.name = name
+  }
+
+  Aninmal.prototype.sayName = function () {
+    console.log(this.name)
+  }
+
+  function Dog(age) {
+    this.age = age
+  }
+
+  Dog.prototype = new Aninmal('动物')
+
+  Dog.prototype.constructor = Dog
+
+  // 由构造函数创建出的实例，都会包含constructor属性，与构造函数的prototype.constructor值相同，
+  // 所以当我们将Animal的实例赋值给Dog.prototype的时候，会将其默认的constructor由Dog更改为Animal，
+  // 这也就会导致由Dog创建出来的实例的constructor变为Animal。为了不让"隔壁老王"有机可趁，扰乱整个关系网，
+  // 当我们通过此方式实现继承的时候，一定要注意需要纠正constructor
+
+  let dog = new Dog(13)
+  console.log('-------原型链继承-----------')
+  dog.sayName()
+
+  console.log()
+
+  // 此方式的原理为dog.__proto__指向Dog.prototype，所以可以读取到name: '动物'，
+  // 而Animal的实例的__proto__又指向Animal.prototype，所以又可以找到sayName方法
+
+  // 通过设置prototype为父类实例的方式快速的解决了继承的问题，但是有如下不足：
+  // 1. 无法对父类的构造函数进行传参。prototype = new Aninmal('动物') 这样子类无法动态给父类的变量赋值，name全都为'动物'
+  // 2. 引用类型容易被修改。如果父类的某个属性为一个引用类型，比如此例子，new Animal([1, 2])，则所有子类都继承了同一个数组，谁都可以修改
+
+
+  // 由于通过实例赋值的问题，出现了下面的继承方式：
+
+  // 2.调用父级构造函数的方式
+
+  function Human(name) {
+    this.name = name
+    this.sayName = function () {
+      return this.name
+    }
+  }
+
+  function Student(name, school) {
+    Human.call(this, name)
+    this.school = school
+  }
+
+  let xiaoming = new Student('小明', '光明小学')
+
+  console.log('------调用父级构造函数继承--------------')
+  console.log(xiaoming, xiaoming.sayName())
+
+  // 此方式的原理为通过call来改变父级构造函数Human的this，从而实现对父级变量/方法的继承以及动态赋值
+
+  // 优点：
+  // 1.解决了原型链继承中引用类型的问题以及无法对父级变量动态赋值的问题
+  // 2.可以实现多继承：只需要在构造函数中多call几个就可以了
+
+  // 缺点：
+  // 1.无法实现对公共方法的复用(sayName)
+  // 2. 不能对原型进行继承，只能继承父类原型的变量/方法
+
+
+  // 你现在是不是在想：如果把以上两种方式一结合，岂不是互补长短，天下无敌？？？现在隆重介绍我们的三号选手：
+  // 3.组合继承
+
+  function Car(name) {
+    this.name = name || '汽车'
+  }
+
+  Car.prototype.sayName = function () {
+    return this.name
+  }
+
+  function Bwm(name, version) {
+    Car.call(this, name)
+    this.version = version
+  }
+
+  Bwm.prototype = new Car()
+
+  Bwm.prototype.constructor = Car // 注意组合继承同样需要重置constructor
+
+  let bwm15 = new Bwm('宝马', 15)
+
+  console.log('---------组合继承-------------')
+  console.log(bwm15, bwm15.sayName())
+
+  // 组合继承的方式集合了上述两种继承方式的优点：
+  // 1.可继承父类的变量且可动态赋值并解决引用数据类型的问题
+  // 2.可通过prototype的继承对公共方法进行复用
+
+  // 但是这种方式还不是特别完美：
+  // 1.实际上生成了两份Car的实例，只不过Bwm实例本身的属性屏蔽了prototype上的属性
+  // 2.对于父类实例的方法/变量可以多继承，但是对于原型继承来说，虽然也可以多继承：
+  // Bwm.prototype = {...new Car(), ...new XXX()}
+  // 但是__proto__只能指向一个父类的prototype
+
+
+  // 虽然组合继承已经比较完美了，但是还是有缺点（重复声明了实例），于是，另外一种更完美的继承方式横空出世：
+
+  // 4.寄生组合继承
+
+  function Phone(name) {
+    this.name = name
+  }
+
+  Phone.prototype.sayName = function () {
+    return this.name
+  }
+
+  function Bridge() {
+
+  }
+
+  Bridge.prototype = Phone.prototype
+
+
+  function Xiaomi(name, version) {
+    Phone.call(this, name)
+    this.version = version
+  }
+
+  Xiaomi.prototype = new Bridge()
+
+  Xiaomi.prototype.constructor = Phone // 注意寄生组合继承同样需要重置constructor
+
+  let xiaomi2 = new Xiaomi('小米', 2)
+
+  console.log('----------寄生组合继承-------------')
+  console.log(xiaomi2, xiaomi2.sayName())
+
+
+  // 此方式通过添加一个中间"桥梁"构造函数的方式来解决父类实例重复声明的问题，可谓将ES5的继承优化到极致
+
+  // 但是非要说缺点的话，就是原型链同样会多出一个无意义的"父类"，需要多写一些代码
+
+  // 虽然这种写法已经是非常好的实现方式了，但是始终摆脱不了"强扭的瓜"的感觉，
+  // ES5的类、继承的实现方式令人非常难懂，需要些非常多的代码，但是，在ES6中，
+  // class 关键字横空出世，熟悉的配方，熟悉的味道，终于投入了JS的怀抱
+
+</script>
+</body>
+</html>
