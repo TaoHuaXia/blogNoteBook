@@ -3,9 +3,50 @@
 <head >
   <meta charset="UTF-8" >
   <title >Title</title >
+  <style>
+    #place {
+      height: 200px;
+      border: 1px solid #000000;
+    }
+    #drag {
+      display: inline-block;
+      width: 200px;
+      height: 200px;
+      background-color: magenta;
+    }
+  </style>
 </head >
 <body >
+<div id='place'>
+
+</div>
+<div id='drag' draggable='true'></div>
 <script>
+  let place = document.getElementById('place')
+  let drag = document.getElementById('drag')
+  drag.ondragstart = function (ev) {
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+    console.log(ev.target.id)
+  }
+  place.ondragenter = function (ev) {
+    ev.preventDefault();
+    this.style.border = '1px solid #eee'
+  }
+  place.ondragleave = function (ev) {
+    ev.preventDefault();
+    this.style.border = '1px solid #000'
+  }
+  place.ondragover = function (ev) {
+    ev.preventDefault();
+  }
+  place.ondrop = function (ev) {
+    console.log("Drop");
+    ev.preventDefault();
+    document.body.removeChild(drag)
+    this.appendChild(drag)
+    console.log(ev.dataTransfer.getData("text"))
+    console.log(ev)
+  }
   //  // 链式操作
   //  var check = function () {
   //    return {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >compose/curry实现</title >
+</head >
+<body >
+<script>
+//  function compose (...funcs) {
+//    return function (arg) {
+//      return funcs.reverse().reduce((result, current) => {
+//        return current.call(null, result)
+//      }, arg)
+//    }
+//  }
+
+  let compose = (...funcs) => (arg) => funcs.concat().reverse().reduce((result, current) => current.call(null, result), arg)
+    // 使用闭包保留了argList,虽然实现了柯里化但是会出现argList参数列表一直被保持
+//  function curry (func) {
+//    let totalLen = func.length
+//    let argList = []
+//    return function _curry(...args) {
+//      let argLen = args.length
+//      argList = [...argList, ...args]
+//      if (argLen < totalLen) {
+//        totalLen = totalLen - argLen
+//        return _curry
+//      } else {
+//        return func.apply(this, argList)
+//      }
+//    }
+//  }
+
+// 使用bind(this, ...args)来保留参数
+  function curry (func) {
+    let totalLen = func.length
+    return function _curry(...args) {
+      if (args.length < totalLen) {
+        return _curry.bind(this, ...args)
+      } else {
+        return func.apply(this, args)
+      }
+    }
+  }
+
+  function add(x, y) {
+    return x + y
+  }
+
+  function multiply(multiplier, num) {
+    return multiplier * num
+
+  }
+
+  let func = compose(
+    curry(multiply)(2),
+    curry(add)(5)
+  )
+
+  console.log(func(2))
+  let addFunc = curry(add)(1)
+  console.log(addFunc(2))
+  console.log(addFunc(3))
+  console.log(addFunc(4))
+</script>
+</body >
+</html >
