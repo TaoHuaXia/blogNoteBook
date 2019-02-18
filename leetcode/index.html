@@ -1,133 +1,244 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head >
-  <meta charset="UTF-8" >
-  <title >Title</title >
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
   <script src='src/array.js'></script>
-</head >
-<body >
-<script >
-  console.log('merge1：', merge1([-6, -10, 3, 5, 6], [-4, 0, 3, 5]))
-  console.log('merge2：', merge2([-6, -10, 3, 5, 6], [-4, 0, 3, 5]))
-  console.log('冒泡排序：', popSort([9,5,3,6,7,2,4,72,4,6,0,-1,-3]))
-  var a = [2, 5, 6, 8, 6, -1, 0]
-  quickSort(a)
-  console.log(a)
+</head>
 
-  var array = [
-    [1, 2, 3, 4, 5],
-    [1, 2, 3, 5, 5],
-    [1, 2, 5, 4, 5],
-    [1, 5, 3, 4, 5],
-    [5, 4, 3, 2, 1]
-  ]
+<body>
+  <script>
+    console.log('merge1：', merge1([-6, -10, 3, 5, 6], [-4, 0, 3, 5]))
+    console.log('merge2：', merge2([-6, -10, 3, 5, 6], [-4, 0, 3, 5]))
+    console.log('冒泡排序：', popSort([9, 5, 3, 6, 7, 2, 4, 72, 4, 6, 0, -1, -3]))
+    var a = [2, 5, 6, 8, 6, -1, 0]
+    quickSort(a)
+    console.log(a)
 
-  // 1.斜四十五度打印二维数组（z字型）
-  function printArray(arr) {
-    if (!arr || !Array.isArray(arr)) {
-      throw new Error('printArray needs an array')
-    }
-    // 获取二维数组的宽高
-    var h = arr.length
-    var w = (arr[0] || []).length
-    var result = []
-    var count = 0
-    // 计算出画斜线时的步长
-    var step = Math.ceil((h - 2) / (w -2))
-    while (count < arr.length) {
-      // 处理当为数组第一项以及最后一项时，直接添加到最终数组中
-      if (count === 0) {
-        result = result.concat(arr[0])
-      } else if (count === h - 1) {
-        result = result.concat(arr[h - 1])
-      } else {
-        var currentItem = arr[count]
-        if (!Array.isArray(currentItem)) {
-          // 中间的项目不是数组的时候，直接推入结果数组
-          result.push(currentItem)
-        } else {
-          // 为数组的时候，计算步长
-          result.push(currentItem[w - 1 - count * step])
-        }
+    var array = [
+      [1, 2, 3, 4, 5],
+      [1, 2, 3, 5, 5],
+      [1, 2, 5, 4, 5],
+      [1, 5, 3, 4, 5],
+      [5, 4, 3, 2, 1]
+    ]
+
+    // 1.斜四十五度打印二维数组（z字型）
+    function printArray(arr) {
+      if (!arr || !Array.isArray(arr)) {
+        throw new Error('printArray needs an array')
       }
-      count++
+      // 获取二维数组的宽高
+      var h = arr.length
+      var w = (arr[0] || []).length
+      var result = []
+      var count = 0
+      // 计算出画斜线时的步长
+      var step = Math.ceil((h - 2) / (w - 2))
+      while (count < arr.length) {
+        // 处理当为数组第一项以及最后一项时，直接添加到最终数组中
+        if (count === 0) {
+          result = result.concat(arr[0])
+        } else if (count === h - 1) {
+          result = result.concat(arr[h - 1])
+        } else {
+          var currentItem = arr[count]
+          if (!Array.isArray(currentItem)) {
+            // 中间的项目不是数组的时候，直接推入结果数组
+            result.push(currentItem)
+          } else {
+            // 为数组的时候，计算步长
+            result.push(currentItem[w - 1 - count * step])
+          }
+        }
+        count++
+      }
+      console.log(result)
     }
-    console.log(result)
-  }
-  printArray(array)
-  
-  
-  // 2. new操作符的原理，写一个自己的new方法实现js的new操作符。
-  
-  function newInstance (Constructor, ...params) {
-    var instance = {}
-    Constructor.apply(instance, params)
-    instance.__proto__ = Constructor.prototype
-    return instance
-  }
+    printArray(array)
 
-  function Person (name, age) {
-    this.name = name
-    this.age = age
-  }
 
-  Person.prototype.sayName = function () {
-    console.log(this.sayName)
-  }
+    // 2. new操作符的原理，写一个自己的new方法实现js的new操作符。
 
-  console.log(newInstance(Person, 'wangyihua', 11))
-  console.log(new Person('wangyihua', 11))
+    function newInstance(Constructor, ...params) {
+      var instance = {}
+      Constructor.apply(instance, params)
+      instance.__proto__ = Constructor.prototype
+      return instance
+    }
 
-  // 3. setTimeout的问题
+    function Person(name, age) {
+      this.name = name
+      this.age = age
+    }
 
-  // 正常情况：由于var不支持块级作用域，所以其实相当于在全局作用域中新增了i变量，所以后续console.log的都引用同一个i
-  for(var i = 0; i < 5; i++) {
-    setTimeout(function () {
-      console.log(i)
-    })
-  }
+    Person.prototype.sayName = function () {
+      console.log(this.sayName)
+    }
 
-  // 处理为正确输出
-  // 3.1 使用立即执行函数，将当前的i作为参数传入，就不会有问题了
-  for(var i = 0; i < 5; i++) {
-    (function(i) {
+    console.log(newInstance(Person, 'wangyihua', 11))
+    console.log(new Person('wangyihua', 11))
+
+    // 3. setTimeout的问题
+
+    // 正常情况：由于var不支持块级作用域，所以其实相当于在全局作用域中新增了i变量，所以后续console.log的都引用同一个i
+    for (var i = 0; i < 5; i++) {
       setTimeout(function () {
         console.log(i)
       })
-    })(i)
-  }
+    }
 
-  // 3.2 使用let，由于let暂时性死区，支持块级作用域，所以每次的变量i都是不同的，所以不会有问题
-  for(let i = 0; i < 5; i++) {
-    setTimeout(function () {
-      console.log(i)
-    })
-  }
-
-  // 读秒
-//  for(let i = 1; i < 101; i++) {
-//    setTimeout(function () {
-//      console.log(i)
-//    }, i * 1000)
-//  }
-
-  // 4.使用Promise完成读秒
-  function count () {
-    let count = 0
-    while (count < 101) {
-      new Promise(resolve => {
+    // 处理为正确输出
+    // 3.1 使用立即执行函数，将当前的i作为参数传入，就不会有问题了
+    for (var i = 0; i < 5; i++) {
+      (function (i) {
         setTimeout(function () {
-          resolve(count)
-        }, count * 1000)
-      }).then(i => {
+          console.log(i)
+        })
+      })(i)
+    }
+
+    // 3.2 使用let，由于let暂时性死区，支持块级作用域，所以每次的变量i都是不同的，所以不会有问题
+    for (let i = 0; i < 5; i++) {
+      setTimeout(function () {
         console.log(i)
       })
     }
-  }
-  count()
 
+    // 读秒
+    //  for(let i = 1; i < 101; i++) {
+    //    setTimeout(function () {
+    //      console.log(i)
+    //    }, i * 1000)
+    //  }
 
+    // 4.使用Promise完成上述读秒
+    // [...Array(101).keys()].forEach(i => {
+    //   new Promise(resolve => {
+    //     setTimeout(function () {
+    //       resolve(i)
+    //     }, i * 1000)
+    //   }).then(i => {
+    //     console.log(i)
+    //   })
+    // })
 
-</script >
-</body >
-</html >
+    const PENDING = 0
+    const FULFILED = 1
+    const REJECTED = 2
+    // 5.自己实现Promise
+    let MyPromise = function(func) {
+      this.status = PENDING
+      this.callbacks = []
+      this.value = null
+
+      doFunc(this, func)
+    }
+
+    MyPromise.prototype.then = function(onFulfiled, onRejected) {
+      let promise = new MyPromise(function() { })
+      let callback = new Callback(promise, onFulfiled, onRejected)
+      handleCallback(this, callback)
+      return promise
+    }
+
+    MyPromise.prototype['catch'] = function(onRejected) {
+      this.then(null, onRejected)
+    }
+
+    function Callback(promise, onFulfiled, onRejected) {
+      this.promise = promise
+      this.onFulfiled = onFulfiled || null
+      this.onRejected = onRejected || null
+    }
+
+    function doFunc(self, func) {
+      let flag = false
+      try {
+        func(function (res) {
+          if (!flag) {
+            flag = true
+            resolve(self, res)
+          }
+        }, function (error) {
+          if (flag) {
+            flag = true
+            reject(self, res)
+          }
+        })
+      } catch (error) {
+        if (!flag) {
+          flag = true
+          reject(self, res)
+        }
+      }
+    }
+
+    function resolve(self, value) {
+      self.value = value
+      self.status = FULFILED
+      doCallbacks(self)
+    }
+
+    function reject(self, error) {
+      self.value = error
+      self.status = REJECTED
+      doCallbacks(self)
+    }
+
+    function doCallbacks(self) {
+      let length = self.callbacks.length
+      for (let i = 0; i < length; i++) {
+        handleCallback(self, self.callbacks[i])
+      }
+    }
+
+    function handleCallback(self, callback) {
+      if (self.status === PENDING) {
+        self.callbacks.push(callback)
+        return
+      }
+      setTimeout(function () {
+        let cb = self.status === FULFILED ? callback.onFulfiled : callback.onRejected
+        if (cb === null) {
+          resolve(callback.promise, self.value)
+        } else {
+          let newValue = undefined
+          try {
+            newValue = cb(self.value)
+            resolve(callback.promise, newValue)
+          } catch (error) {
+            reject(callback.promise, error)
+          }
+        }
+      }, 0)
+    }
+
+    let pro = new MyPromise((resolve) => {
+      resolve(98989898989)
+    }).then(res => {
+      console.log(res)
+      return 'wangyihua'
+    }).catch(res => {
+      console.log(res)
+    })
+
+    // 6.模板字符串
+
+    // 6.1 实现'${year}-${month}-${day}'
+    function render(str) {
+      let year = 2018
+      let month = 12
+      let day = 5
+      str.replace(/\$\{year\}/, 2018)
+      str.replace(/\$\{month\}/g, month)
+      str.replace(/\$\{day\}/g, day)
+      debugger
+      return str
+    }
+    console.log(render('${year}-${month}-${day}'))
+  </script>
+</body>
+
+</html>
