@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >Title</title >
+  <script src='src/array.js'></script>
+</head >
+<body >
+<script >
+  console.log('merge1：', merge1([-6, -10, 3, 5, 6], [-4, 0, 3, 5]))
+  console.log('merge2：', merge2([-6, -10, 3, 5, 6], [-4, 0, 3, 5]))
+  console.log('冒泡排序：', popSort([9,5,3,6,7,2,4,72,4,6,0,-1,-3]))
+  var a = [2, 5, 6, 8, 6, -1, 0]
+  quickSort(a)
+  console.log(a)
+
+  var array = [
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 5, 5],
+    [1, 2, 5, 4, 5],
+    [1, 5, 3, 4, 5],
+    [5, 4, 3, 2, 1]
+  ]
+
+  // 1.斜四十五度打印二维数组（z字型）
+  function printArray(arr) {
+    if (!arr || !Array.isArray(arr)) {
+      throw new Error('printArray needs an array')
+    }
+    // 获取二维数组的宽高
+    var h = arr.length
+    var w = (arr[0] || []).length
+    var result = []
+    var count = 0
+    // 计算出画斜线时的步长
+    var step = Math.ceil((h - 2) / (w -2))
+    while (count < arr.length) {
+      // 处理当为数组第一项以及最后一项时，直接添加到最终数组中
+      if (count === 0) {
+        result = result.concat(arr[0])
+      } else if (count === h - 1) {
+        result = result.concat(arr[h - 1])
+      } else {
+        var currentItem = arr[count]
+        if (!Array.isArray(currentItem)) {
+          // 中间的项目不是数组的时候，直接推入结果数组
+          result.push(currentItem)
+        } else {
+          // 为数组的时候，计算步长
+          result.push(currentItem[w - 1 - count * step])
+        }
+      }
+      count++
+    }
+    console.log(result)
+  }
+  printArray(array)
+  
+  
+  // 2. new操作符的原理，写一个自己的new方法实现js的new操作符。
+  
+  function newInstance (Constructor, ...params) {
+    var instance = {}
+    Constructor.apply(instance, params)
+    instance.__proto__ = Constructor.prototype
+    return instance
+  }
+
+  function Person (name, age) {
+    this.name = name
+    this.age = age
+  }
+
+  Person.prototype.sayName = function () {
+    console.log(this.sayName)
+  }
+
+  console.log(newInstance(Person, 'wangyihua', 11))
+  console.log(new Person('wangyihua', 11))
+
+  // 3. setTimeout的问题
+
+  // 正常情况：由于var不支持块级作用域，所以其实相当于在全局作用域中新增了i变量，所以后续console.log的都引用同一个i
+  for(var i = 0; i < 5; i++) {
+    setTimeout(function () {
+      console.log(i)
+    })
+  }
+
+  // 处理为正确输出
+  // 3.1 使用立即执行函数，将当前的i作为参数传入，就不会有问题了
+  for(var i = 0; i < 5; i++) {
+    (function(i) {
+      setTimeout(function () {
+        console.log(i)
+      })
+    })(i)
+  }
+
+  // 3.2 使用let，由于let暂时性死区，支持块级作用域，所以每次的变量i都是不同的，所以不会有问题
+  for(let i = 0; i < 5; i++) {
+    setTimeout(function () {
+      console.log(i)
+    })
+  }
+
+  // 读秒
+//  for(let i = 1; i < 101; i++) {
+//    setTimeout(function () {
+//      console.log(i)
+//    }, i * 1000)
+//  }
+
+  // 4.使用Promise完成读秒
+  function count () {
+    let count = 0
+    while (count < 101) {
+      new Promise(resolve => {
+        setTimeout(function () {
+          resolve(count)
+        }, count * 1000)
+      }).then(i => {
+        console.log(i)
+      })
+    }
+  }
+  count()
+
+
+
+</script >
+</body >
+</html >

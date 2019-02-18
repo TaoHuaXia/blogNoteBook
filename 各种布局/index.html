@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title>Title</title>
+  <style>
+    .wrapper {
+      height: 300px;
+      background: #b6eeff;
+    }
+    .content {
+      width: 300px;
+      height: 30px;
+      background-color: #b6ffc9;
+    }
+    .default {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0 auto;
+    }
+
+    .flex {
+      display: flex;
+    }
+    .flex-center {
+      align-items: center;
+      justify-content: center;
+    }
+
+    .left {
+      height: 100%;
+      background: #dddddd;
+    }
+    .right {
+      height: 100%;
+      background: #b6ffc9;
+    }
+    .left-float {
+      width: 180px;
+      float: left;
+      height: 100%;
+    }
+    .right-margin {
+      margin-left: 200px;
+    }
+    .left-flex {
+      flex: 0 0 180px;
+    }
+    /* flex中 使用margin不会引起换行*/
+    .right-flex {
+      margin-left: 20px;
+      flex: 1;
+    }
+    .right-bfc {
+      overflow: hidden;
+    }
+
+    .left-flex-height {
+      flex: 0 0 180px;
+      margin-right: 20px;
+    }
+    .right-flex-height {
+      flex: 1;
+      height: 300px;
+    }
+  </style>
+</head >
+<body >
+<h3>水平垂直居中：“</h3>
+<h5>(垂直position relative/absolute + transform + 水平marin)</h5>
+<div class='wrapper'>
+  <div class='content default'>
+  </div>
+</div>
+<h5>(flex)</h5>
+<div class='wrapper flex flex-center'>
+  <div class='content'>
+  </div>
+</div>
+<h3>两列布局</h3>
+<h5>float + margin(元素的顺序要正确，左侧浮动的元素应该在右侧之前)</h5>
+<div class='wrapper'>
+  <div class='left left-float'>左侧</div>
+  <div class='right right-margin'>右侧</div>
+</div>
+<h5>BFC</h5>
+<div class='wrapper'>
+  <div class='left left-float'>左侧</div>
+  <div class='right right-bfc'>右侧</div>
+</div>
+<h5>flex</h5>
+<div class='wrapper flex'>
+  <div class='left left-flex'>左侧</div>
+  <div class='right right-flex'>右侧</div>
+</div>
+<h3>等高布局</h3>
+<h5>flex</h5>
+<div class='wrapper flex'>
+  <div class='left left-flex-height'></div>
+  <div class='right right-flex-height'></div>
+</div>
+</body >
+</html >
