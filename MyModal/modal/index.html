@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head >
+  <meta charset="UTF-8" >
+  <title >我的弹窗</title >
+  <link href='modal.css' type='text/css' rel='stylesheet'>
+</head >
+<body >
+<my-modal
+  id='modal'
+  modalTitle="测试一下"
+  visible="false"
+  onconfirm='onConfirm()'
+  oncancel='onCancel()'
+  confirmBtnText="提交"
+  cancelBtnText="算了"
+>
+  <ul>
+    <li>列表1</li>
+    <li>列表2</li>
+    <li>列表3</li>
+  </ul>
+</my-modal>
+<button id='openDefault'>打开标准弹窗</button>
+<button id='openConfirm'>Confirm</button>
+<button id='openInfo'>Info</button>
+<button id='openSuccess'>Success</button>
+<button id='openError'>Error</button>
+<button id='openWarning'>Warning</button>
+<button id='maskClosable'>点击遮罩关闭</button>
+<button id='multiModal'>多层弹窗</button>
+</body >
+<script src='./modal.js'></script>
+<script>
+  // 通过Attribute绑定回调
+  function onConfirm(e) {
+    console.log('confirm:', e)
+    this.close()
+  }
+  function onCancel(e) {
+    console.log('cancel:', e)
+    this.close()
+  }
+  // 通过 xx.onxxxx 绑定回调
+  //  document.getElementById('modal').oncancel = function (e) {
+  //    this.visible = false
+  //    console.log('通过js')
+  //  }
+  //  document.getElementById('modal').onconfirm = function (e) {
+  //    this.visible = false
+  //    console.log('通过js')
+  //  }
+
+  document.getElementById('openDefault').addEventListener('click', function () {
+    // 通过操作visible控制弹窗显隐
+//  document.getElementById('modal').visible = true
+
+    //  通过open()/close()方法控制弹窗显隐
+    document.getElementById('modal').open()
+  })
+
+  document.getElementById('openConfirm').addEventListener('click', function () {
+    MyModal.confirm({
+      title: '是否确定删除此内容？',
+      content: '将要删除数据[43383]',
+      confirmBtnText: '确定',
+      onConfirm: (callback) => {
+        console.log('删除成功！')
+        callback()
+      },
+      cancelBtnText: '取消'
+    })
+  })
+
+  document.getElementById('openInfo').addEventListener('click', function () {
+    MyModal.info({
+      title: '这是一个信息',
+      content: '数据[43383]',
+      confirmBtnText: '知道了'
+    })
+  })
+
+  document.getElementById('openSuccess').addEventListener('click', function () {
+    MyModal.success({
+      title: '数据创建成功',
+      content: '数据[43383]',
+      confirmBtnText: '确定'
+    })
+  })
+
+  document.getElementById('openWarning').addEventListener('click', function () {
+    MyModal.warning({
+      title: '当前功能正在升级',
+      content: '数据[43383]',
+      confirmBtnText: '知道了'
+    })
+  })
+
+  document.getElementById('openError').addEventListener('click', function () {
+    MyModal.error({
+      title: '失败！',
+      content: '数据[43383]',
+    })
+  })
+
+  document.getElementById('maskClosable').addEventListener('click', function () {
+    MyModal.error({
+      title: '点击遮罩也可以关闭！',
+      content: '数据[43383]',
+      maskClosable: true
+    })
+  })
+
+  document.getElementById('multiModal').addEventListener('click', function () {
+    MyModal.confirm({
+      title: '是否确定删除此内容？',
+      content: '将要删除数据[43383]',
+      confirmBtnText: '确定',
+      onConfirm: (callback) => {
+        MyModal.success({
+          title: '删除成功！',
+          confirmBtnText: '好的！'
+        })
+      },
+      cancelBtnText: '退出'
+    })
+  })
+
+</script>
+</html >

@@ -226,18 +226,132 @@
 
     // 6.模板字符串
 
-    // 6.1 实现'${year}-${month}-${day}'
+    // 6.1 实现'${year}-${month}-${day}'类模板字符串，替换模板内容
     function render(str) {
       let year = 2018
       let month = 12
       let day = 5
-      str.replace(/\$\{year\}/, 2018)
-      str.replace(/\$\{month\}/g, month)
-      str.replace(/\$\{day\}/g, day)
-      debugger
-      return str
+      return str.replace(/\${year}/g, year).replace(/\${month}/g, month).replace(/\${day}/g, day)
     }
     console.log(render('${year}-${month}-${day}'))
+    console.log(render('${year}年嗷${year}嗷${month}月啊啊${day}日哈哈'))
+
+    //6.2 模板内容不定，怎样处理：
+    function replaceStr (str, params) {
+      return str.replace(/\${[a-zA-Z\d]+}/g, (subStr) => {
+        return params[subStr.slice(2, subStr.length - 1)] || subStr
+      })
+    }
+    console.log(replaceStr('${haha}-${month}-${day}', {
+      haha: '20ddd18',
+      month: '234',
+      day: '34'
+    }))
+
+    // 7.自己实现apply bind call
+    var anObject = {
+      name: '指定的name'
+    }
+    var name = '全局的name'
+    var anFunction = function (age, sex) {
+      console.log(this.name, age, sex)
+      return '返回值'
+    }
+    // 7.1 apply
+    // 7.1.1 ES6 版本
+    Function.prototype.myApplyEs6 = function (target, params) {
+      target._func = this
+      let value = target._func(...params)
+      delete target._func
+      return value
+    }
+    console.log('-------es6版本apply------')
+    console.log(anFunction(21, '男'))
+    console.log(anFunction.myApplyEs6(anObject, [22, '女']))
+
+    // 7.1.2 es5版本-借助eval
+    
+    Function.prototype.myApplyEs5 = function (target, params) {
+      target._func = this
+      var args = []
+      for (var i = 0; i < params.length; i++) {
+        args.push('params[' + i + ']')
+      }
+      let value = eval('target._func(' + args + ')')
+      delete target._func
+      return value
+    }
+
+    console.log('-------es5版本apply------')
+    console.log(anFunction(21, '男'))
+    console.log(anFunction.myApplyEs5(anObject, [22, '女']))
+
+    // 7.2 call
+    // 7.2.1 Es6-使用解构
+    Function.prototype.myCallEs6 = function (target, ...params) {
+      target._func = this
+      let value = target._func(...params)
+      delete target._func
+      return value
+    }
+    console.log('-------es6版本call------')
+    console.log(anFunction(21, '男'))
+    console.log(anFunction.myCallEs6(anObject, 22, '女'))
+
+    // 7.2.2 es5版本-借助eval以及arguments
+
+    Function.prototype.myCallEs5 = function (target) {
+      target._func = this
+      var args = []
+      for (var i = 1; i < arguments.length; i++) {
+        args.push('arguments[' + i + ']')
+      }
+      let value = eval('target._func(' + args + ')')
+      delete target._func
+      return value
+    }
+
+    console.log('-------es5版本call------')
+    console.log(anFunction(21, '男'))
+    console.log(anFunction.myCallEs5(anObject, 22, '女'))
+
+    // 7.3 bind
+    // 7.2.1 Es6
+    Function.prototype.myBindEs6 = function (target, ...params) {
+      return (...params2) => {
+        target._func = this
+        return this.myApplyEs6(target, [...params, ...params2])
+      }
+    }
+    console.log('-------es6版本bind------')
+    console.log(anFunction(21, '男'))
+    console.log(anFunction.myBindEs6(anObject, 22)('女的'))
+
+    // 7.2.2 es5版本-借助eval以及arguments
+
+    Function.prototype.myBindEs5 = function (target) {
+      var _this = this
+      var args = []
+      var args1 =  [null]
+      for (var i = 1; i < arguments.length; i++) {
+        args1.push(arguments[i])
+        args.push('args1[' + i + ']')
+      }
+
+      return function () {
+        for (var i = 0; i < arguments.length; i++) {
+          args.push('arguments[' + i + ']')
+        }
+        target._func = _this
+        let value = eval('target._func(' + args + ')')
+        delete target._func
+        return value
+      }
+    }
+
+    console.log('-------es5版本bind------')
+    console.log(anFunction(21, '男'))
+    console.log(anFunction.myBindEs5(anObject, 22)('女'))
   </script>
 </body>
 
